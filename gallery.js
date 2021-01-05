@@ -1,10 +1,11 @@
 import images from "./gallery-items.js";
 
-const makeGalleryItems = images.map((image) => {
+const makeGalleryItems = images.map((image, idx) => {
   let imageTag = document.createElement("img");
   imageTag.classList.add("gallery__image");
   imageTag.setAttribute("src", image.preview);
   imageTag.setAttribute("data-source", image.original);
+  imageTag.setAttribute("data-index", idx);
   imageTag.setAttribute("alt", image.description);
   let linkTag = document.createElement("a");
   linkTag.classList.add("gallery__link");
@@ -54,7 +55,33 @@ function closeModalWithEscape(event) {
   }
 }
 
+function scrollGallery(event) {
+  if (!refs.modalRef.classList.contains("is-open")) {
+    return;
+  }
+  const imageIndex = images.indexOf(
+    images.filter((image) => image.original === refs.largeImageRef.src)[0]
+  );
+  const previousImageIndex = imageIndex - 1;
+  const nextImageIndex = imageIndex + 1;
+
+  if (event.code === "ArrowLeft") {
+    if (previousImageIndex === -1) {
+      return;
+    }
+    refs.largeImageRef.src = images[previousImageIndex].original;
+  }
+
+  if (event.code === "ArrowRight") {
+    if (nextImageIndex === images.length) {
+      return;
+    }
+    refs.largeImageRef.src = images[nextImageIndex].original;
+  }
+}
+
 refs.gallery.addEventListener("click", onImageClick);
 refs.closeModalBtn.addEventListener("click", closeModal);
 refs.overlayRef.addEventListener("click", closeModal);
 window.addEventListener("keydown", closeModalWithEscape);
+window.addEventListener("keydown", scrollGallery);
