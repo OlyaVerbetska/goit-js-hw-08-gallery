@@ -22,11 +22,10 @@ const refs = {
   largeImageRef: document.querySelector(".lightbox__image"),
   modalRef: document.querySelector("div.lightbox"),
   closeModalBtn: document.querySelector('button[data-action="close-lightbox"]'),
+  overlayRef: document.querySelector(".lightbox__overlay"),
 };
 
 refs.gallery.append(...makeGalleryItems);
-
-//=====================================================================
 
 function onImageClick(event) {
   event.preventDefault();
@@ -37,7 +36,6 @@ function onImageClick(event) {
 
   const imageRef = event.target;
   const largeImageURL = imageRef.dataset.source;
-
   setLargeImageSrc(largeImageURL);
 }
 
@@ -50,7 +48,13 @@ function closeModal() {
   refs.largeImageRef.src = "";
 }
 
+function closeModalWithEscape(event) {
+  if (event.code === "Escape") {
+    closeModal();
+  }
+}
+
 refs.gallery.addEventListener("click", onImageClick);
 refs.closeModalBtn.addEventListener("click", closeModal);
-
-//=====================================================================
+refs.overlayRef.addEventListener("click", closeModal);
+window.addEventListener("keydown", closeModalWithEscape);
