@@ -59,24 +59,30 @@ function scrollGallery(event) {
   if (!refs.modalRef.classList.contains("is-open")) {
     return;
   }
-  const imageIndex = images.indexOf(
-    images.filter((image) => image.original === refs.largeImageRef.src)[0]
+  const imagesRefs = refs.gallery.querySelectorAll("img");
+  const currentImage = [...imagesRefs].find(
+    (arrayImage) => arrayImage.dataset.source === refs.largeImageRef.src
   );
-  const previousImageIndex = imageIndex - 1;
-  const nextImageIndex = imageIndex + 1;
+  const currentImageIndex = Number(currentImage.dataset.index);
 
   if (event.code === "ArrowLeft") {
-    if (previousImageIndex === -1) {
+    if (currentImageIndex - 1 === -1) {
       return;
     }
-    refs.largeImageRef.src = images[previousImageIndex].original;
+    const prevImage = [...imagesRefs].find(
+      (arrayImage) => Number(arrayImage.dataset.index) === currentImageIndex - 1
+    );
+    refs.largeImageRef.src = prevImage.dataset.source;
   }
 
   if (event.code === "ArrowRight") {
-    if (nextImageIndex === images.length) {
+    if (currentImageIndex + 1 === imagesRefs.length) {
       return;
     }
-    refs.largeImageRef.src = images[nextImageIndex].original;
+    const nextImage = [...imagesRefs].find(
+      (arrayImage) => Number(arrayImage.dataset.index) === currentImageIndex + 1
+    );
+    refs.largeImageRef.src = nextImage.dataset.source;
   }
 }
 
