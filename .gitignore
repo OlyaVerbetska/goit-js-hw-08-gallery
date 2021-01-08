@@ -107,4 +107,6 @@ dist
 .vscode/settings.json
 .vscode/settings.json
 
-./prettierrc.json
+prettierrc.json
+old-scroll-gallery.js
+gallery-items.js
