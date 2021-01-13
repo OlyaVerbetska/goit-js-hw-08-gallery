@@ -33,6 +33,8 @@ function onImageClick(event) {
   if (event.target.nodeName !== "IMG") {
     return;
   }
+  window.addEventListener("keydown", closeModalWithEscape);
+  window.addEventListener("keydown", scrollGallery);
   refs.modalRef.classList.add("is-open");
 
   const imageRef = event.target;
@@ -45,6 +47,8 @@ function setLargeImageSrc(url) {
 }
 
 function closeModal() {
+  window.removeEventListener("keydown", closeModalWithEscape);
+  window.removeEventListener("keydown", scrollGallery);
   refs.modalRef.classList.remove("is-open");
   refs.largeImageRef.src = "";
 }
@@ -89,5 +93,5 @@ function scrollGallery(event) {
 refs.gallery.addEventListener("click", onImageClick);
 refs.closeModalBtn.addEventListener("click", closeModal);
 refs.overlayRef.addEventListener("click", closeModal);
-window.addEventListener("keydown", closeModalWithEscape);
-window.addEventListener("keydown", scrollGallery);
+// window.addEventListener("keydown", closeModalWithEscape);
+// window.addEventListener("keydown", scrollGallery);
